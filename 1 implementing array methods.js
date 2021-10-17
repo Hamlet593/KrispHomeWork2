@@ -59,10 +59,14 @@ Array.prototype.splice = function(start, deleteCount, ...items){
   
   let result = [];
 
-  if(arguments.length < 1 || deleteCount < 0 || typeof start !== 'number'){ //իրական splice-ի դեպքում, եթե start-ին թիվ չենք տալիս, կամ start-ին թիվ տալիս ենք բայց deleteCount-ը դիտմամբ բացասական ինչ-որ 
+  if(arguments.length < 1 || (deleteCount < 0 && !items.length) || typeof start !== 'number'){ //իրական splice-ի դեպքում, եթե start-ին թիվ չենք տալիս, կամ start-ին թիվ տալիս ենք բայց deleteCount-ը դիտմամբ բացասական ինչ-որ 
     // անկապ թիվ ենք գրում, ապա splice ֆունկցիան վերադարձնում է նոր դատարկ array, + մեր սկզբնական array-ն էլ չի փովում:
     //Կամ եթե start-ին ինչ-որ անկապ սթրինգ ենք տալիս: ԱյՍ երեք պայմանները գրել եմ այս բլոկում:
     return result;
+  }
+  
+  if(deleteCount < 0 && items.length){
+    deleteCount = 0;
   }
   
   if(start < 0){ //Իրական splice-ի դեպքում եթե start-ը տալիս ենք բացասական թիվ, ապա հետհաշվարկը սկսվում է վերջից, նույնը արել եմ այս բլոկում:
@@ -101,12 +105,12 @@ Array.prototype.splice = function(start, deleteCount, ...items){
 };
 
 
-let arr = [1, 2, 3, 4, 5, 6, 7];
-let test = arr.splice(2, 4, 'aa');
+let arr = [1, 2, 3, 4];
+let test = arr.splice(1, -20, 'd', 'f', 'h', 'h');
 
 console.log(test);
 
-console.log(arr)
+console.log(arr);
 
 //Կարող եք ցանկացած case-ով test գրել՝ ըստ ձեր հայեցողության ^^ օրինակ՝ այստեղինը՝ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
 
